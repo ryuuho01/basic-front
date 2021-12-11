@@ -2,7 +2,7 @@
   <div class="container">
 
 　<validation-observer ref="obs" v-slot="ObserverProps">
-    <form class="reservation" action="https://afternoon-beyond-97179.herokuapp.com/reservation/" method="POST" @submit="date_check">
+    <form class="reservation" action="https://afternoon-beyond-97179.herokuapp.com/api/reservation/" method="POST" @submit="date_check">
       <h2>予約</h2>
       <input type="text" v-model="userId" name="user_id" hidden>
       <input type="text" v-model="shopId" name="shop_id" hidden>
@@ -126,7 +126,7 @@ export default {
 
     },
     async created() {
-      const userresData = await this.$axios.get("https://afternoon-beyond-97179.herokuapp.com/user/");
+      const userresData = await this.$axios.get("https://afternoon-beyond-97179.herokuapp.com/api/user/");
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           const email = user.email;
@@ -143,7 +143,7 @@ export default {
 
     async mounted() {
       await axios
-        .get("https://afternoon-beyond-97179.herokuapp.com/shop/"+this.$route.params.id)
+        .get("https://afternoon-beyond-97179.herokuapp.com/api/shop/"+this.$route.params.id)
         .then((response) => (this.shopCurrent = response.data.data));
     },
 
