@@ -74,7 +74,7 @@ export default {
         email: this.email,
         password: this.password,
       };
-      await this.$axios.post("http://127.0.0.1:8000/api/user/", senduserData);
+      await this.$axios.post("https://afternoon-beyond-97179.herokuapp.com/user/", senduserData);
     },
   },
 }
