@@ -49,9 +49,6 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    
-  },
-  generate:{
     done(generator){
       // Copy dist files to public/_nuxt
       if (generator.nuxt.options.dev === false && generator.nuxt.options.mode === 'spa') {
@@ -61,5 +58,6 @@ export default {
           copySync(join(generator.nuxt.options.generate.dir, '200.html'), join(publicDir, 'index.html'))
       }
     }
-  }
+    
+  },
 }
