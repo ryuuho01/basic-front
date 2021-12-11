@@ -1,0 +1,44 @@
+[
+  {
+    "name": "done",
+    "path": "/done",
+    "component": "/Users/taka/Desktop/基本設計Herokuデプロイ用データ/basic_advance-front/pages/done.vue",
+    "chunkName": "pages/done"
+  },
+  {
+    "name": "login",
+    "path": "/login",
+    "component": "/Users/taka/Desktop/基本設計Herokuデプロイ用データ/basic_advance-front/pages/login.vue",
+    "chunkName": "pages/login"
+  },
+  {
+    "name": "mypage",
+    "path": "/mypage",
+    "component": "/Users/taka/Desktop/基本設計Herokuデプロイ用データ/basic_advance-front/pages/mypage.vue",
+    "chunkName": "pages/mypage"
+  },
+  {
+    "name": "register",
+    "path": "/register",
+    "component": "/Users/taka/Desktop/基本設計Herokuデプロイ用データ/basic_advance-front/pages/register.vue",
+    "chunkName": "pages/register"
+  },
+  {
+    "name": "thanks",
+    "path": "/thanks",
+    "component": "/Users/taka/Desktop/基本設計Herokuデプロイ用データ/basic_advance-front/pages/thanks.vue",
+    "chunkName": "pages/thanks"
+  },
+  {
+    "name": "detail-id",
+    "path": "/detail/:id?",
+    "component": "/Users/taka/Desktop/基本設計Herokuデプロイ用データ/basic_advance-front/pages/detail/_id.vue",
+    "chunkName": "pages/detail/_id"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "/Users/taka/Desktop/基本設計Herokuデプロイ用データ/basic_advance-front/pages/index.vue",
+    "chunkName": "pages/index"
+  }
+]
