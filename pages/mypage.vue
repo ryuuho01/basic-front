@@ -82,9 +82,9 @@ export default {
     },
 
     async created() {
-      const userresData = await this.$axios.get("https://afternoon-beyond-97179.herokuapp.com/api/user/");
+      const userresData = await this.$axios.get("https://afternoon-beyond-97179.herokuapp.com/api/user");
       await axios
-        .get("https://afternoon-beyond-97179.herokuapp.com/api/shop/")
+        .get("https://afternoon-beyond-97179.herokuapp.com/api/shop")
         .then((response) => (this.shopCurrent = response.data.data));
 
       firebase.auth().onAuthStateChanged((user) => {
@@ -135,7 +135,7 @@ export default {
     methods: {
       async getData() {
         await axios
-        .get("https://afternoon-beyond-97179.herokuapp.com/api/shop/")
+        .get("https://afternoon-beyond-97179.herokuapp.com/api/shop")
         .then((response) => (this.shopCurrent = response.data.data));
         let shops = [];
         for(let i=0; i < this.shopCurrent.length; i++) {
@@ -165,14 +165,14 @@ export default {
           this.favoriteCurrent = favorite;
       },
       destroy: async function(item_id){
-        const reservationresData = await this.$axios.get("https://afternoon-beyond-97179.herokuapp.com/api/reservation/");
+        const reservationresData = await this.$axios.get("https://afternoon-beyond-97179.herokuapp.com/api/reservation");
         let reservationId = 0;
         for(let i=0; i < reservationresData.data.data.length; i++) {
             if(reservationresData.data.data[i]["user_id"] == this.userId && reservationresData.data.data[i]["shop_id"] == item_id) {
               reservationId = reservationresData.data.data[i]["id"];
             };
           }
-        const deletepath = "https://afternoon-beyond-97179.herokuapp.com/api/reservation/"+reservationId;
+        const deletepath = "https://afternoon-beyond-97179.herokuapp.com/api/reservation"+reservationId;
           await axios
           .delete(deletepath);
           this.getData();
@@ -185,7 +185,7 @@ export default {
       favorite: async function(item_id) {
           const user = firebase.auth().currentUser;
           if(user !== null) {
-            const favoriteresData = await this.$axios.get("https://afternoon-beyond-97179.herokuapp.com/api/favorite/");
+            const favoriteresData = await this.$axios.get("https://afternoon-beyond-97179.herokuapp.com/api/favorite");
 
             let currentFavorite = 0;
             let favorite_id = 0;
