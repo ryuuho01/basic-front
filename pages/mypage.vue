@@ -172,7 +172,7 @@ export default {
               reservationId = reservationresData.data.data[i]["id"];
             };
           }
-        const deletepath = "https://afternoon-beyond-97179.herokuapp.com/api/reservation"+reservationId;
+        const deletepath = "https://afternoon-beyond-97179.herokuapp.com/api/reservation/"+reservationId;
           await axios
           .delete(deletepath);
           this.getData();
