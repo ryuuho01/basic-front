@@ -33,8 +33,8 @@
         <div class="shop-des" >
           <h2>{{item.shop_name}}</h2>
           <p>
-            <span>#{{item.area_name.area_name}} </span>
-            <span>#{{item.genre_name.genre_name}} </span>
+            <span>#{{item.area_name}} </span>
+            <span>#{{item.genre_name}} </span>
           </p>
           <div class="flex">
             <button @click="detail(item.id)">詳しくみる</button>
