@@ -48,7 +48,12 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    proxy: true
+  },
+  proxy: {
+    '/api/': { target: 'https://afternoon-beyond-97179.herokuapp.com', pathRewrite: {'^/api/': ''} }
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
