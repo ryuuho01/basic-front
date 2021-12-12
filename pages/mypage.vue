@@ -53,8 +53,8 @@
             <div class="flex">
               <button @click="detail(item.id)">詳しくみる</button>
               <div>
-                <img v-if="item.favorites == 1" @click="favorite(item.id)" src="/heart2.png" alt="画像">
-                <img v-else @click="favorite(item.id)" src="/heart1.png" alt="画像">
+                <img v-if="item.favorites == 1" @click="deleteFavorite(item.id)" src="/heart2.png" alt="画像">
+                <img v-else @click="addFavorite(item.id)" src="/heart1.png" alt="画像">
               </div>
             </div>
           </div>
@@ -182,40 +182,40 @@ export default {
           this.$router.replace('/detail/'+item_id);
       },
       
-      favorite: async function(item_id) {
-          const user = firebase.auth().currentUser;
-          if(user !== null) {
-            const favoriteresData = await this.$axios.get("https://afternoon-beyond-97179.herokuapp.com/api/favorite");
+      addFavorite: async function(item_id) {
+        const user = firebase.auth().currentUser;
+        if(user !== null) {
+        const favoriteData = {
+          user_id: this.userId,
+          shop_id: item_id,
+          favorite: true,
+        }
+        await axios
+          .post("https://afternoon-beyond-97179.herokuapp.com/api/favorite",favoriteData);
 
-            let currentFavorite = 0;
-            let favorite_id = 0;
-            for(let i=0; i < favoriteresData.data.data.length; i++) {
-              if(favoriteresData.data.data[i]["shop_id"] == item_id && favoriteresData.data.data[i]["user_id"] == this.userId) {
-                currentFavorite = favoriteresData.data.data[i]["favorite"];
-                favorite_id = favoriteresData.data.data[i]["id"]
-              }
-            }
+        this.getInfo();
 
-            if(currentFavorite == 0) {
-              const favoritechangetData = {
-                favorite: true,
-              }
-            await axios
-              .put("https://afternoon-beyond-97179.herokuapp.com/api/favorite/"+favorite_id,favoritechangetData);
+        } else {
+          this.$router.replace('/login')
+        };
+      },
 
-            } else {
-              const favoritechangetData = {
-              favorite: false,
-            }
-            await axios
-              .put("https://afternoon-beyond-97179.herokuapp.com/api/favorite/"+favorite_id,favoritechangetData);
-            }
+      deleteFavorite: async function(item_id) {
 
-          } else {
-              this.$router.replace('/login')
+        let favoriteId = 0;
+        const favoriteresData = await this.$axios.get("https://afternoon-beyond-97179.herokuapp.com/api/favorite");
+        for(let i=0; i < favoriteresData.data.data.length; i++) {
+          if(favoriteresData.data.data[i]["user_id"] == this.userId && favoriteresData.data.data[i]["shop_id"] == item_id) {
+            favoriteId = favoriteresData.data.data[i]["id"];
+            break
           };
-          this.getData();
-        },
+        }
+        const deletepath = "https://afternoon-beyond-97179.herokuapp.com/api/favorite/"+favoriteId;
+        await axios
+        .delete(deletepath);
+
+        this.getInfo();
+      },
     },
 }
 </script>
