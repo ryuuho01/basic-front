@@ -55,7 +55,7 @@ export default {
   proxy: {
     '/api/': {
       target: 'https://afternoon-beyond-97179.herokuapp.com',
-      // pathRewrite: { '^/api/': '' },
+      pathRewrite: { '^/api/': '' },
     }
   },
 
