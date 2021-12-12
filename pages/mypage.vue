@@ -133,7 +133,7 @@ export default {
     },
 
     methods: {
-      async getData() {
+      async getInfo() {
         await axios
         .get("https://afternoon-beyond-97179.herokuapp.com/api/shop")
         .then((response) => (this.shopCurrent = response.data.data));
@@ -175,7 +175,7 @@ export default {
         const deletepath = "https://afternoon-beyond-97179.herokuapp.com/api/reservation/"+reservationId;
           await axios
           .delete(deletepath);
-          this.getData();
+          this.getInfo();
       },
 
       detail: function(item_id) {
