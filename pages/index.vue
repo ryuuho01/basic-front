@@ -68,9 +68,9 @@ export default {
     },
     
     async created() {
-      const userresData = await this.$axios.get("https://infinite-plateau-76316.herokuapp.com/api/user/");
+      const userresData = await this.$axios.get("https://afternoon-beyond-97179.herokuapp.com/api/user/");
       await axios
-        .get("https://infinite-plateau-76316.herokuapp.com/api/shop/")
+        .get("https://afternoon-beyond-97179.herokuapp.com/api/shop/")
         .then((response) => (this.shopCurrent = response.data.data));
 
       firebase.auth().onAuthStateChanged((user) => {
@@ -103,10 +103,10 @@ export default {
 
     async mounted() {
       axios
-      .get("https://infinite-plateau-76316.herokuapp.com/api/area/")
+      .get("https://afternoon-beyond-97179.herokuapp.com/api/area/")
       .then((response) => (this.areaCurrent = response.data.data));
       axios
-      .get("https://infinite-plateau-76316.herokuapp.com/api/genre/")
+      .get("https://afternoon-beyond-97179.herokuapp.com/api/genre/")
       .then((response) => (this.genreCurrent = response.data.data));
     },
 
@@ -119,9 +119,9 @@ export default {
     methods: {
 
         async getInfo() {
-          const userresData = await this.$axios.get("https://infinite-plateau-76316.herokuapp.com/api/user/");
+          const userresData = await this.$axios.get("https://afternoon-beyond-97179.herokuapp.com/api/user/");
           await axios
-            .get("https://infinite-plateau-76316.herokuapp.com/api/shop/")
+            .get("https://afternoon-beyond-97179.herokuapp.com/api/shop/")
             .then((response) => (this.shopCurrent = response.data.data));
 
           firebase.auth().onAuthStateChanged((user) => {
@@ -155,7 +155,7 @@ export default {
         favorite: async function(item_id) {
           const user = firebase.auth().currentUser;
           if(user !== null) {
-            const userresData = await this.$axios.get("https://infinite-plateau-76316.herokuapp.com/api/user/");
+            const userresData = await this.$axios.get("https://afternoon-beyond-97179.herokuapp.com/api/user/");
             const email = user.email;
             let user_id = 0;
             for(let i=0; i < userresData.data.data.length; i++) {
@@ -165,7 +165,7 @@ export default {
             }
 
             let shop_id = 0;
-            const favoriteresData = await this.$axios.get("https://infinite-plateau-76316.herokuapp.com/api/favorite/");
+            const favoriteresData = await this.$axios.get("https://afternoon-beyond-97179.herokuapp.com/api/favorite/");
             for(let i=0; i < favoriteresData.data.data.length; i++) {
               if(favoriteresData.data.data[i]["shop_id"] == item_id && favoriteresData.data.data[i]["user_id"] == user_id) {
                 shop_id = item_id;
@@ -175,7 +175,7 @@ export default {
             if(shop_id == 0) {
               let userId = 0;
               const email = user.email;
-              const userresData = await this.$axios.get("https://infinite-plateau-76316.herokuapp.com/api/user/");
+              const userresData = await this.$axios.get("https://afternoon-beyond-97179.herokuapp.com/api/user/");
               for(let i=0; i < userresData.data.data.length; i++) {
                 if(userresData.data.data[i]["email"] == email) {
                   userId = userresData.data.data[i]["id"];
@@ -188,12 +188,12 @@ export default {
                 favorite: true,
               }
               await axios
-                .post("https://infinite-plateau-76316.herokuapp.com/api/favorite/",favoriteData);
+                .post("https://afternoon-beyond-97179.herokuapp.com/api/favorite/",favoriteData);
 
             } else {
               let userId = 0;
               const email = user.email;
-              const userresData = await this.$axios.get("https://infinite-plateau-76316.herokuapp.com/api/user/");
+              const userresData = await this.$axios.get("https://afternoon-beyond-97179.herokuapp.com/api/user/");
               for(let i=0; i < userresData.data.data.length; i++) {
                 if(userresData.data.data[i]["email"] == email) {
                   userId = userresData.data.data[i]["id"];
@@ -214,14 +214,14 @@ export default {
                   favorite: true,
                 }
               await axios
-                .put("https://infinite-plateau-76316.herokuapp.com/api/favorite/"+favorite_id,favoritechangetData);
+                .put("https://afternoon-beyond-97179.herokuapp.com/api/favorite/"+favorite_id,favoritechangetData);
 
               } else {
                 const favoritechangetData = {
                 favorite: false,
               }
               await axios
-                .put("https://infinite-plateau-76316.herokuapp.com/api/favorite/"+favorite_id,favoritechangetData);
+                .put("https://afternoon-beyond-97179.herokuapp.com/api/favorite/"+favorite_id,favoritechangetData);
               }
             }
 
