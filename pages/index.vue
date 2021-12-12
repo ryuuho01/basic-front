@@ -68,9 +68,9 @@ export default {
     },
     
     async created() {
-      const userresData = await this.$axios.get("http://127.0.0.1:8000/api/user");
+      const userresData = await this.$axios.get("https://afternoon-beyond-97179.herokuapp.com/api/user");
       await axios
-        .get("http://127.0.0.1:8000/api/shop")
+        .get("https://afternoon-beyond-97179.herokuapp.com/api/shop")
         .then((response) => (this.shopCurrent = response.data.data));
 
       firebase.auth().onAuthStateChanged((user) => {
@@ -103,10 +103,10 @@ export default {
 
     async mounted() {
       axios
-      .get("http://127.0.0.1:8000/api/area")
+      .get("https://afternoon-beyond-97179.herokuapp.com/api/area")
       .then((response) => (this.areaCurrent = response.data.data));
       axios
-      .get("http://127.0.0.1:8000/api/genre")
+      .get("https://afternoon-beyond-97179.herokuapp.com/api/genre")
       .then((response) => (this.genreCurrent = response.data.data));
     },
 
@@ -119,9 +119,9 @@ export default {
     methods: {
 
         async getInfo() {
-          const userresData = await this.$axios.get("http://127.0.0.1:8000/api/user");
+          const userresData = await this.$axios.get("https://afternoon-beyond-97179.herokuapp.com/api/user");
           await axios
-            .get("http://127.0.0.1:8000/api/shop")
+            .get("https://afternoon-beyond-97179.herokuapp.com/api/shop")
             .then((response) => (this.shopCurrent = response.data.data));
 
           firebase.auth().onAuthStateChanged((user) => {
@@ -161,7 +161,7 @@ export default {
             favorite: true,
           }
           await axios
-            .post("http://127.0.0.1:8000/api/favorite",favoriteData);
+            .post("https://afternoon-beyond-97179.herokuapp.com/api/favorite",favoriteData);
 
           this.getInfo();
 
@@ -173,14 +173,14 @@ export default {
         deleteFavorite: async function(item_id) {
 
           let favoriteId = 0;
-          const favoriteresData = await this.$axios.get("http://127.0.0.1:8000/api/favorite");
+          const favoriteresData = await this.$axios.get("https://afternoon-beyond-97179.herokuapp.com/api/favorite");
           for(let i=0; i < favoriteresData.data.data.length; i++) {
             if(favoriteresData.data.data[i]["user_id"] == this.userId && favoriteresData.data.data[i]["shop_id"] == item_id) {
               favoriteId = favoriteresData.data.data[i]["id"];
               break
             };
           }
-          const deletepath = "http://127.0.0.1:8000/api/favorite/"+favoriteId;
+          const deletepath = "https://afternoon-beyond-97179.herokuapp.com/api/favorite/"+favoriteId;
           await axios
           .delete(deletepath);
 
