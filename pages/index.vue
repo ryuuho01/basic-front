@@ -38,8 +38,8 @@
           </p>
           <div class="flex">
             <button @click="detail(item.id)">詳しくみる</button>
-              <img v-if="item.favorites == 1" @click="favorite(item.id)" src="/heart2.png" alt="画像">
-              <img v-else @click="favorite(item.id)" src="/heart1.png" alt="画像">
+              <img v-if="item.favorites == 1" @click="deleteFavorite(item.id)" src="/heart2.png" alt="画像">
+              <img v-else @click="addFavorite(item.id)" src="/heart1.png" alt="画像">
           </div>
         </div>
 
@@ -68,9 +68,9 @@ export default {
     },
     
     async created() {
-      const userresData = await this.$axios.get("https://afternoon-beyond-97179.herokuapp.com/api/user");
+      const userresData = await this.$axios.get("http://127.0.0.1:8000/api/user");
       await axios
-        .get("https://afternoon-beyond-97179.herokuapp.com/api/shop")
+        .get("http://127.0.0.1:8000/api/shop")
         .then((response) => (this.shopCurrent = response.data.data));
 
       firebase.auth().onAuthStateChanged((user) => {
@@ -103,10 +103,10 @@ export default {
 
     async mounted() {
       axios
-      .get("https://afternoon-beyond-97179.herokuapp.com/api/area")
+      .get("http://127.0.0.1:8000/api/area")
       .then((response) => (this.areaCurrent = response.data.data));
       axios
-      .get("https://afternoon-beyond-97179.herokuapp.com/api/genre")
+      .get("http://127.0.0.1:8000/api/genre")
       .then((response) => (this.genreCurrent = response.data.data));
     },
 
@@ -119,9 +119,9 @@ export default {
     methods: {
 
         async getInfo() {
-          const userresData = await this.$axios.get("https://afternoon-beyond-97179.herokuapp.com/api/user");
+          const userresData = await this.$axios.get("http://127.0.0.1:8000/api/user");
           await axios
-            .get("https://afternoon-beyond-97179.herokuapp.com/api/shop")
+            .get("http://127.0.0.1:8000/api/shop")
             .then((response) => (this.shopCurrent = response.data.data));
 
           firebase.auth().onAuthStateChanged((user) => {
@@ -152,82 +152,38 @@ export default {
           })
         },
 
-        favorite: async function(item_id) {
+        addFavorite: async function(item_id) {
           const user = firebase.auth().currentUser;
           if(user !== null) {
-            const userresData = await this.$axios.get("https://afternoon-beyond-97179.herokuapp.com/api/user");
-            const email = user.email;
-            let user_id = 0;
-            for(let i=0; i < userresData.data.data.length; i++) {
-              if(userresData.data.data[i]["email"] == email) {
-                user_id = userresData.data.data[i]["id"];
-              };
-            }
+          const favoriteData = {
+            user_id: this.userId,
+            shop_id: item_id,
+            favorite: true,
+          }
+          await axios
+            .post("http://127.0.0.1:8000/api/favorite",favoriteData);
 
-            let shop_id = 0;
-            const favoriteresData = await this.$axios.get("https://afternoon-beyond-97179.herokuapp.com/api/favorite");
-            for(let i=0; i < favoriteresData.data.data.length; i++) {
-              if(favoriteresData.data.data[i]["shop_id"] == item_id && favoriteresData.data.data[i]["user_id"] == user_id) {
-                shop_id = item_id;
-              }
-            }
-
-            if(shop_id == 0) {
-              let userId = 0;
-              const email = user.email;
-              const userresData = await this.$axios.get("https://afternoon-beyond-97179.herokuapp.com/api/user");
-              for(let i=0; i < userresData.data.data.length; i++) {
-                if(userresData.data.data[i]["email"] == email) {
-                  userId = userresData.data.data[i]["id"];
-                };
-              }
-
-              const favoriteData = {
-                user_id: userId,
-                shop_id: item_id,
-                favorite: true,
-              }
-              await axios
-                .post("https://afternoon-beyond-97179.herokuapp.com/api/favorite",favoriteData);
-
-            } else {
-              let userId = 0;
-              const email = user.email;
-              const userresData = await this.$axios.get("https://afternoon-beyond-97179.herokuapp.com/api/user");
-              for(let i=0; i < userresData.data.data.length; i++) {
-                if(userresData.data.data[i]["email"] == email) {
-                  userId = userresData.data.data[i]["id"];
-                };
-              }
-
-              let currentFavorite = 0;
-              let favorite_id = 0;
-              for(let i=0; i < favoriteresData.data.data.length; i++) {
-                if(favoriteresData.data.data[i]["shop_id"] == item_id && favoriteresData.data.data[i]["user_id"] == userId) {
-                  currentFavorite = favoriteresData.data.data[i]["favorite"];
-                  favorite_id = favoriteresData.data.data[i]["id"]
-                }
-              }
-
-              if(currentFavorite == 0) {
-                const favoritechangetData = {
-                  favorite: true,
-                }
-              await axios
-                .put("https://afternoon-beyond-97179.herokuapp.com/api/favorite/"+favorite_id,favoritechangetData);
-
-              } else {
-                const favoritechangetData = {
-                favorite: false,
-              }
-              await axios
-                .put("https://afternoon-beyond-97179.herokuapp.com/api/favorite/"+favorite_id,favoritechangetData);
-              }
-            }
+          this.getInfo();
 
           } else {
-              this.$router.replace('/login')
+            this.$router.replace('/login')
           };
+        },
+
+        deleteFavorite: async function(item_id) {
+
+          let favoriteId = 0;
+          const favoriteresData = await this.$axios.get("http://127.0.0.1:8000/api/favorite");
+          for(let i=0; i < favoriteresData.data.data.length; i++) {
+            if(favoriteresData.data.data[i]["user_id"] == this.userId && favoriteresData.data.data[i]["shop_id"] == item_id) {
+              favoriteId = favoriteresData.data.data[i]["id"];
+              break
+            };
+          }
+          const deletepath = "http://127.0.0.1:8000/api/favorite/"+favoriteId;
+          await axios
+          .delete(deletepath);
+
           this.getInfo();
         },
 
