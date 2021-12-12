@@ -59,7 +59,7 @@ export default {
         .signOut()
         .then(() => {
           alert('ログアウトが完了しました')
-          window.location.href = "http://localhost:3000/";
+          window.location.href = "https://infinite-plateau-76316.herokuapp.com";
         })
     },
     menuOpen() {
